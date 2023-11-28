@@ -1,3 +1,4 @@
+// di implements a container for dependency injection for Go without using reflection.
 package di
 
 // Provider is a function that returns instances of dependencies.
