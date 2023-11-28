@@ -64,6 +64,26 @@ func TestBindsIfNotAlreadyRegistered(test *testing.T) {
     assert.Equals(test, 100, result.field)
 }
 
+func TestBindsSingleton(test *testing.T) {
+    container := NewContainer()
+    timesCalled := 0
+    provider := func(_ *Container) (*SomeStruct, error) {
+        timesCalled++
+        return NewSomeStruct(100)
+    }
+
+    BindSingleton(container, provider)
+    result, err := Make[*SomeStruct](container)
+    assert.Nil(test, err)
+    assert.Equals(test, 100, result.field)
+    assert.Equals(test, 1, timesCalled)
+
+    result, err = Make[*SomeStruct](container)
+    assert.Nil(test, err)
+    assert.Equals(test, 100, result.field)
+    assert.Equals(test, 1, timesCalled)
+}
+
 func TestResolvesADependency(test *testing.T) {
     container := NewContainer()
     provider := func(_ *Container) (*SomeStruct, error) {

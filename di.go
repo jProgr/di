@@ -45,6 +45,8 @@ func BindNamed[T any](container *Container, id ProviderId, provider Provider[T])
     container.namedBindings[id] = provider
 }
 
+// BindSingleton marks the function provider as the dependency resolver for type T
+// as singleton.
 func BindSingleton[T any](container *Container, provider Provider[T]) {
     container.singletons[intoKind[T]()] = provider
 }
